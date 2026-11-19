@@ -10,7 +10,7 @@
     - Handhika Putra Widyartono
     - Jovan Oberto Mishael Sinaga
 
-# BFSweeper is a simple implementation of the classic Minesweeper game, enhanced with a Breadth-First Search (BFS) algorithm for revealing cells. This project is designed to provide an interactive and educational experience for users interested in both gaming and algorithmic concepts.
+BFSweeper is a simple implementation of the classic Minesweeper game, enhanced with a Breadth-First Search (BFS) algorithm for revealing cells. This project is designed to provide an interactive and educational experience for users interested in both gaming and algorithmic concepts.
 
 ## how to run
 1. Make sure you have Python installed on your system.
@@ -21,4 +21,4 @@
    python src/main.py
    ```
    **additional note**: make sure you've installed tkinter library, which is usually included with standard Python installations. If you encounter any issues, please refer to the Python documentation for guidance on installing Tkinter.
-   ```
+
