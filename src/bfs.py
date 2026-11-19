@@ -18,8 +18,7 @@ def bfs_reveal(grid, rows, cols, start_r, start_c, revealed):
     start_time = time.perf_counter()
     newly_revealed = []
     queue = deque([(start_r, start_c)])
-    visited = set(revealed)
-    visited.add((start_r, start_c))
+    queued = {(start_r, start_c)}
     nodes_visited = 0
 
     while queue:
@@ -31,10 +30,13 @@ def bfs_reveal(grid, rows, cols, start_r, start_c, revealed):
         if grid[r][c] == 0:
             for dr, dc in DIRECTIONS:
                 nr, nc = r + dr, c + dc
-                if 0 <= nr < rows and 0 <= nc < cols and (nr, nc) not in visited:
-                    if grid[nr][nc] != -1:  # Pastikan tidak membuka ranjau
-                        visited.add((nr, nc))
-                        queue.append((nr, nc))
+                neighbor = (nr, nc)
+                if not (0 <= nr < rows and 0 <= nc < cols):
+                    continue
+                if neighbor in revealed or neighbor in queued or grid[nr][nc] == -1:
+                    continue
+                queued.add(neighbor)
+                queue.append(neighbor)
 
     elapsed_ms = (time.perf_counter() - start_time) * 1000
     metrics = {
