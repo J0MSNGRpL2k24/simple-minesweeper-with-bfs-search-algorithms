@@ -40,6 +40,9 @@ class MinesweeperApp:
         )
         self.reset_btn.pack(side=tk.RIGHT, padx=10)
 
+        self.metrics_label = tk.Label(root, font=("Consolas", 10))
+        self.metrics_label.pack()
+
         self.board_frame = tk.Frame(root, padx=10, pady=10)
         self.board_frame.pack()
 
@@ -64,7 +67,8 @@ class MinesweeperApp:
 
     def reset_game(self):
         self.board = MinesweeperBoard(self.rows, self.cols, self.num_mines)
-        self.status_label.config(text=f"Mines: {self.num_mines} | BFS Ready")
+        self.status_label.config(text=f"Mines: {self.num_mines}")
+        self.metrics_label.config(text="BFS ready")
         for (r, c), btn in self.buttons.items():
             btn.config(
                 text="",
@@ -80,14 +84,27 @@ class MinesweeperApp:
             return
 
         if status == "mine":
-            for mr, mc in cells:
-                self.buttons[(mr, mc)].config(
-                    text="*", bg="#EF5350", fg="white", relief=tk.SUNKEN
-                )
-            self.status_label.config(text="Game Over! Hit a mine.")
-            messagebox.showinfo("Game Over", "Boom! You hit a mine. Try again!")
+            self._show_mines(cells)
             return
 
+        self._render_revealed_cells(cells)
+        self.metrics_label.config(
+            text=f"BFS: {metrics['cells_revealed']} cells | {metrics['execution_time_ms']} ms"
+        )
+
+        if status == "win":
+            self.status_label.config(text="Victory! All safe cells cleared.")
+            messagebox.showinfo("Victory!", "Congratulations! All safe cells have been cleared.")
+
+    def _show_mines(self, cells):
+        for mr, mc in cells:
+            self.buttons[(mr, mc)].config(
+                text="*", bg="#EF5350", fg="white", relief=tk.SUNKEN
+            )
+        self.status_label.config(text="Game Over! Hit a mine.")
+        messagebox.showinfo("Game Over", "Boom! You hit a mine. Try again!")
+
+    def _render_revealed_cells(self, cells):
         for cr, cc in cells:
             val = self.board.grid[cr][cc]
             btn = self.buttons[(cr, cc)]
@@ -97,18 +114,6 @@ class MinesweeperApp:
                 bg="#FAFAFA",
                 fg=NUMBER_COLORS.get(val, "black"),
             )
-
-        if metrics:
-            self.status_label.config(
-                text=(
-                    f"BFS: {metrics['cells_revealed']} cells | "
-                    f"{metrics['execution_time_ms']} ms"
-                )
-            )
-
-        if status == "win":
-            self.status_label.config(text="Victory! All safe cells cleared.")
-            messagebox.showinfo("Victory!", "Congratulations! All safe cells have been cleared.")
 
 
 if __name__ == "__main__":
