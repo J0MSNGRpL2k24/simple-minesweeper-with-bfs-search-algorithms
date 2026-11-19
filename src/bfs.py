@@ -9,7 +9,7 @@ DIRECTIONS = [
 ]
 
 
-def bfs_reveal(grid, rows, cols, start_r, start_c, revealed):
+def bfs_reveal(grid, rows, cols, start_r, start_c, revealed, flagged=frozenset()):
     """
     Menjalankan Breadth-First Search (BFS) dari titik (start_r, start_c)
     untuk membuka seluruh sel kosong (nilai 0) yang terhubung beserta
@@ -33,7 +33,9 @@ def bfs_reveal(grid, rows, cols, start_r, start_c, revealed):
                 neighbor = (nr, nc)
                 if not (0 <= nr < rows and 0 <= nc < cols):
                     continue
-                if neighbor in revealed or neighbor in queued or grid[nr][nc] == -1:
+                if neighbor in revealed or neighbor in flagged or neighbor in queued:
+                    continue
+                if grid[nr][nc] == -1:
                     continue
                 queued.add(neighbor)
                 queue.append(neighbor)
