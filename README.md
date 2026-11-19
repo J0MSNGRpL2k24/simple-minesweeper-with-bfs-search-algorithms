@@ -7,8 +7,7 @@
 
 
 # Author:
-    - Handhika Putra
-Widyartono
+    - Handhika Putra Widyartono
     - Jovan Oberto Mishael Sinaga
 
 # BFSweeper is a simple implementation of the classic Minesweeper game, enhanced with a Breadth-First Search (BFS) algorithm for revealing cells. This project is designed to provide an interactive and educational experience for users interested in both gaming and algorithmic concepts.
